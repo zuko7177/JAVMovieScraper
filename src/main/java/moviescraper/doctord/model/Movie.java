@@ -13,6 +13,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
@@ -767,25 +769,45 @@ public class Movie {
 			return null;
 		String searchString = siteToParseFrom.createSearchString(movieFile);
 		SearchResult[] searchResults = null;
-		int searchResultNumberToUse = 0;
+		int searchResultNumberToUse = -1;
 		//no URL was passed in so we gotta figure it ourselves
 		if (!useURLtoScrapeFrom) {
 			searchResults = siteToParseFrom.getSearchResults(searchString);
 			int levDistanceOfCurrentMatch = 999999; // just some super high number
 			String idFromMovieFile = SiteParsingProfile.findIDTagFromFile(movieFile, siteToParseFrom.isFirstWordOfFileIsID());
 
-			//loop through search results and see if URL happens to contain ID number in the URL. This will improve accuracy!
+			/*
+			 * We will loop through the search results and compare the Label field for match movie ID match. If we
+			 * cannot find match, we will compare to URL and hope to find movie ID match there.
+			 */
+			//Loop through search results and compare Label field for match
+			String pattern = "(?<=_|\\b)" + idFromMovieFile.toUpperCase() + "(?=_|\\b)";
+			Pattern p = Pattern.compile(pattern);
 			for (int i = 0; i < searchResults.length; i++) {
-				String urltoMatch = searchResults[i].getUrlPath().toLowerCase();
-				String idFromMovieFileToMatch = idFromMovieFile.toLowerCase().replaceAll("-", "");
-				//System.out.println("Comparing " + searchResults[i].toLowerCase() + " to " + idFromMovieFile.toLowerCase().replaceAll("-", ""));
-				if (urltoMatch.contains(idFromMovieFileToMatch)) {
-					//let's do some fuzzy logic searching to try to get the "best" match in case we got some that are pretty close
-					//and update the variables accordingly so we know what our best match so far is
-					int candidateLevDistanceOfCurrentMatch = StringUtils.getLevenshteinDistance(urltoMatch.toLowerCase(), idFromMovieFileToMatch);
-					if (candidateLevDistanceOfCurrentMatch < levDistanceOfCurrentMatch) {
-						levDistanceOfCurrentMatch = candidateLevDistanceOfCurrentMatch;
-						searchResultNumberToUse = i;
+				Matcher match = p.matcher(searchResults[i].getLabel().toUpperCase());
+				if (match.find() == true) {
+					searchResultNumberToUse = i;
+					break;
+				}
+			}
+
+			if (searchResultNumberToUse == -1) {
+				//We did not find match using Label field so let's
+				//loop through search results again and see if URL happens to contain ID number in the URL.
+				searchResultNumberToUse = 0;
+				for (int i = 0; i < searchResults.length; i++) {
+					String urltoMatch = searchResults[i].getUrlPath().toLowerCase();
+					String idFromMovieFileToMatch = idFromMovieFile.toLowerCase().replaceAll("-", "");
+
+					//System.out.println("Comparing " + searchResults[i].toLowerCase() + " to " + idFromMovieFile.toLowerCase().replaceAll("-", ""));
+					if (urltoMatch.contains(idFromMovieFileToMatch)) {
+						//let's do some fuzzy logic searching to try to get the "best" match in case we got some that are pretty close
+						//and update the variables accordingly so we know what our best match so far is
+						int candidateLevDistanceOfCurrentMatch = StringUtils.getLevenshteinDistance(urltoMatch.toLowerCase(), idFromMovieFileToMatch);
+						if (candidateLevDistanceOfCurrentMatch < levDistanceOfCurrentMatch) {
+							levDistanceOfCurrentMatch = candidateLevDistanceOfCurrentMatch;
+							searchResultNumberToUse = i;
+						}
 					}
 				}
 			}
