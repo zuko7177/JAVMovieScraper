@@ -4,11 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Locale;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import moviescraper.doctord.controller.UtilityFunctions;
@@ -44,12 +40,22 @@ import moviescraper.doctord.model.dataitem.Trailer;
 import moviescraper.doctord.model.dataitem.Votes;
 import moviescraper.doctord.model.dataitem.Year;
 
+import static java.util.Map.entry;
+
 public class R18ParsingProfile extends SiteParsingProfile implements SpecificProfile {
 
 	private static final SimpleDateFormat r18ReleaseDateFormat = new SimpleDateFormat("MMM. dd,yyyy", Locale.ENGLISH);
 	private static final SimpleDateFormat r18ReleaseDateFormatAlternate = new SimpleDateFormat("MMM dd,yyyy", Locale.ENGLISH);
 	private static final String[] TrailerAttrsOrder = { "data-video-high", "data-video-med", "data-video-low" };
 	private static final Pattern RuntimePattern = Pattern.compile("^([0-9]+)[^0-9].*");
+
+	// list of words to un-censor
+	private static final Map<String, String> censoredWords = Map.ofEntries(entry("C***d", "Child"), entry("F***e", "Force"), entry("F*****g", "Forcing"), entry("T*****e", "Torture"),
+	        entry("M****ter", "Molester"), entry("Y********l", "Young Girl"), entry("R**e", "Rape"), entry("D******ed", "Destroyed"), entry("A*****t", "Assault"), entry("S*********ls", "Schoolgirls"),
+	        entry("S********l", "Schoolgirl"), entry("S*****t", "Student"), entry("StumB**d", "Stumbled"), entry("B**d", "Bled"), entry("G******g", "Gangbang"), entry("G*******g", "Gangbang"),
+	        entry("B***d", "Breed"), entry("K**l", "Kill"), entry("SK**lful", "Skillful"), entry("S***e", "Slave"), entry("U*********sly", "Unconsciously"), entry("R****g", "Raping"),
+	        entry("D**g", "Drug"), entry("K*d", "Kid"), entry("StepB****************r", "Stepbrother and Sister"), entry("P*A", "PTA"), entry("S******g", "Sleeping"), entry("D***k", "Drunk"),
+	        entry("H*******m", "Hypnotism"), entry("Sch**lgirls", "Schoolgirls"), entry("V*****ed", "Violated"), entry("I****tuous", "Incestuous"));
 
 	@Override
 	public String getParserName() {
@@ -67,7 +73,7 @@ public class R18ParsingProfile extends SiteParsingProfile implements SpecificPro
 	public Title scrapeTitle() {
 		Element titleElement = document.select("cite[itemprop=name]").first();
 		if (titleElement != null)
-			return new Title(titleElement.text());
+			return new Title(uncensor(titleElement.text()));
 		else
 			return new Title("");
 	}
@@ -96,7 +102,7 @@ public class R18ParsingProfile extends SiteParsingProfile implements SpecificPro
 					Document setDocument = SiteParsingProfile.downloadDocumentFromURLString(setElement.attr("href"));
 					Element setElementFullText = setDocument.select("div.cmn-ttl-tabMain01 h1.txt01").first();
 					if (setElementFullText != null) {
-						return new Set(setElementFullText.text());
+						return new Set(uncensor(setElementFullText.text()));
 					}
 
 				} catch (Exception e) {
@@ -104,7 +110,7 @@ public class R18ParsingProfile extends SiteParsingProfile implements SpecificPro
 					return new Set(setText);
 				}
 			}
-			return new Set(setText);
+			return new Set(uncensor(setText));
 		}
 		return Set.BLANK_SET;
 	}
@@ -126,7 +132,7 @@ public class R18ParsingProfile extends SiteParsingProfile implements SpecificPro
 		if (releaseDateElement != null && releaseDateElement.text().length() > 4) {
 			String releaseDateText = releaseDateElement.text().trim();
 
-			//gah why is this site so inconsistent. September should be Sep., not "Sept.". 
+			//gah why is this site so inconsistent. September should be Sep., not "Sept.".
 			//They randomly decide how many letters they want each month to take.
 			if (releaseDateText.contains("Sept.")) {
 				releaseDateText = releaseDateText.replaceFirst(Pattern.quote("Sept."), "Sep.");
@@ -297,7 +303,7 @@ public class R18ParsingProfile extends SiteParsingProfile implements SpecificPro
 			for (Element currentGenre : genreElements) {
 				String genreText = currentGenre.text();
 				if (genreText.length() > 0 && !genreText.equals("Hi-Def") && !genreText.equals("Featured Actress") && !(genreText.toLowerCase().startsWith("featured"))) {
-					genreList.add(new Genre(genreText));
+					genreList.add(new Genre(uncensor(genreText)));
 				}
 
 			}
@@ -365,7 +371,7 @@ public class R18ParsingProfile extends SiteParsingProfile implements SpecificPro
 		scrapedMovieFile = file;
 
 		// The general approach is search for 'tag' + '5-digit 0-padded number'.
-		// This gets pretty good results, usually a perfect match, 
+		// This gets pretty good results, usually a perfect match,
 		// or 2 to 5 results for clashing ids - still good for manual picking.
 
 		String baseId = findIDTagFromFile(file, isFirstWordOfFileIsID()).replace("-", "");
@@ -437,7 +443,7 @@ public class R18ParsingProfile extends SiteParsingProfile implements SpecificPro
 
 			if (results == null) {
 
-				// lots of old Moodyz titles are listed by their VHS tag, 
+				// lots of old Moodyz titles are listed by their VHS tag,
 				// those starting with 'MD' may get a good match removing the trailing 'D',
 				// (MDED -> MDE, MDID -> MDI, MDLD -> MDL...)
 				// result will be filtered during the amalgamation process though, need to fix that
@@ -470,4 +476,15 @@ public class R18ParsingProfile extends SiteParsingProfile implements SpecificPro
 		return "R18.com";
 	}
 
+	private String uncensor(String text) {
+		if (text == null || text.trim().equals(""))
+			return text;
+
+		if (text.contains("*")) {
+			for (Map.Entry<String, String> word : this.censoredWords.entrySet()) {
+				text = text.replace(word.getKey(), word.getValue());
+			}
+		}
+		return text;
+	}
 }
