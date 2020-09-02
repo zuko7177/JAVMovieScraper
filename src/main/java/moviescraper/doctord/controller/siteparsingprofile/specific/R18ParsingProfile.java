@@ -53,10 +53,10 @@ public class R18ParsingProfile extends SiteParsingProfile implements SpecificPro
 	private static final Map<String, String> censoredWords = Map.ofEntries(entry("C***d", "Child"), entry("F***e", "Force"), entry("F*****g", "Forcing"), entry("T*****e", "Torture"),
 	        entry("M****ter", "Molester"), entry("Y********l", "Young Girl"), entry("R**e", "Rape"), entry("D******ed", "Destroyed"), entry("A*****t", "Assault"), entry("S*********ls", "Schoolgirls"),
 	        entry("S********l", "Schoolgirl"), entry("S*****t", "Student"), entry("StumB**d", "Stumbled"), entry("B**d", "Bled"), entry("G******g", "Gangbang"), entry("G*******g", "Gangbang"),
-	        entry("B***d", "Breed"), entry("K**l", "Kill"), entry("SK**lful", "Skillful"), entry("S***e", "Slave"), entry("U*********sly", "Unconsciously"), entry("R****g", "Raping"),
-	        entry("D**g", "Drug"), entry("K*d", "Kid"), entry("StepB****************r", "Stepbrother and Sister"), entry("P*A", "PTA"), entry("S******g", "Sleeping"), entry("D***k", "Drunk"),
-	        entry("H*******m", "Hypnotism"), entry("Sch**lgirls", "Schoolgirls"), entry("V*****ed", "Violated"), entry("I****tuous", "Incestuous"), entry("A****p", "Asleep"),
-	        entry("I****t", "Incest"), entry("Ko**ji", "Komyo-ji"));
+	        entry("G*********d", "Gangbanged"), entry("B***d", "Breed"), entry("K**l", "Kill"), entry("SK**lful", "Skillful"), entry("S***e", "Slave"), entry("U*********sly", "Unconsciously"),
+	        entry("R****g", "Raping"), entry("D**g", "Drug"), entry("K*d", "Kid"), entry("StepB****************r", "Stepbrother and Sister"), entry("P*A", "PTA"), entry("S******g", "Sleeping"),
+	        entry("D***k", "Drunk"), entry("H*******m", "Hypnotism"), entry("Sch**lgirls", "Schoolgirls"), entry("V*****ed", "Violated"), entry("I****tuous", "Incestuous"), entry("A****p", "Asleep"),
+	        entry("I****t", "Incest"), entry("Ko**ji", "Komyo-ji"), entry("M****ted", "Molested"), entry("H*******ed", "Hypnotized"));
 
 	@Override
 	public String getParserName() {

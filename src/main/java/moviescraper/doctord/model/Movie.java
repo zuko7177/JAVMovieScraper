@@ -732,35 +732,6 @@ public class Movie {
 		}
 	}
 
-	/*
-	 * private String [] searchResultsHelperForScrapeMovie(File movieFile, SiteParsingProfile siteToParseFrom)
-	 * {
-	 * String [] searchResults = siteToParseFrom.getSearchResults(searchString);
-	 * int levDistanceOfCurrentMatch = 999999; // just some super high number
-	 * String idFromMovieFile = SiteParsingProfile.findIDTagFromFile(movieFile);
-	 * 
-	 * //loop through search results and see if URL happens to contain ID number in the URL. This will improve accuracy!
-	 * for (int i = 0; i < searchResults.length; i++)
-	 * {
-	 * String urltoMatch = searchResults[i].toLowerCase();
-	 * String idFromMovieFileToMatch = idFromMovieFile.toLowerCase().replaceAll("-", "");
-	 * //System.out.println("Comparing " + searchResults[i].toLowerCase() + " to " + idFromMovieFile.toLowerCase().replaceAll("-", ""));
-	 * if (urltoMatch.contains(idFromMovieFileToMatch))
-	 * {
-	 * //let's do some fuzzy logic searching to try to get the "best" match in case we got some that are pretty close
-	 * //and update the variables accordingly so we know what our best match so far is
-	 * int candidateLevDistanceOfCurrentMatch = StringUtils.getLevenshteinDistance(urltoMatch.toLowerCase(), idFromMovieFileToMatch);
-	 * if (candidateLevDistanceOfCurrentMatch < levDistanceOfCurrentMatch)
-	 * {
-	 * levDistanceOfCurrentMatch = candidateLevDistanceOfCurrentMatch;
-	 * searchResultNumberToUse = i;
-	 * }
-	 * }
-	 * }
-	 * return searchResults;
-	 * }
-	 */
-
 	//Version that allows us to update the GUI while scraping
 	public static Movie scrapeMovie(File movieFile, SiteParsingProfile siteToParseFrom, String urlToScrapeFromDMM, boolean useURLtoScrapeFrom) throws IOException {
 
