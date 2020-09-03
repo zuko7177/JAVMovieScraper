@@ -474,6 +474,8 @@ public class GUIMainMenuBar extends JMenuBar {
 		JMenu scraperConfigurationMenu = new JMenu("Scraper's Settings");
 		scraperConfigurationMenu.setMnemonic(KeyEvent.VK_E);
 
+		scraperConfigurationMenu.add(createDmmMenu());
+
 		JMenuItem javlibrary = new JMenuItem("JAVLibrary");
 		javlibrary.addActionListener(new ActionListener() {
 
@@ -487,6 +489,16 @@ public class GUIMainMenuBar extends JMenuBar {
 		scraperConfigurationMenu.add(javlibrary);
 
 		add(scraperConfigurationMenu);
+	}
+
+	private JMenu createDmmMenu() {
+		JMenu submenu = new JMenu("DMM");
+
+		//Checkbox for option to scrape DMM actress.
+		JCheckBoxMenuItem scrapeInJapanese = createCheckBoxMenuItem("Scrape Actress on DMM.co.jp", b -> getPreferences().setScrapeDmmActressPref(b), () -> getPreferences().getScrapeDmmActressPref());
+		submenu.add(scrapeInJapanese);
+
+		return submenu;
 	}
 
 	private void initializeMenus() {
