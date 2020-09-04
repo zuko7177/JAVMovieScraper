@@ -57,7 +57,8 @@ public class R18ParsingProfile extends SiteParsingProfile implements SpecificPro
 	        entry("U*********sly", "Unconsciously"), entry("R****g", "Raping"), entry("D**g", "Drug"), entry("K*d", "Kid"), entry("StepB****************r", "Stepbrother and Sister"),
 	        entry("P*A", "PTA"), entry("S******g", "Sleeping"), entry("D***k", "Drunk"), entry("H*******m", "Hypnotism"), entry("Sch**lgirls", "Schoolgirls"), entry("V*****ed", "Violated"),
 	        entry("I****tuous", "Incestuous"), entry("A****p", "Asleep"), entry("I****t", "Incest"), entry("Ko**ji", "Komyo-ji"), entry("M****ted", "Molested"), entry("M****ting", "Molesting"),
-	        entry("H*******ed", "Hypnotized"), entry("D******eful", "Shameful"), entry("Lo**ta", "Lolita"), entry("S********n", "Submission"));
+	        entry("H*******ed", "Hypnotized"), entry("D******eful", "Shameful"), entry("Lo**ta", "Lolita"), entry("S********n", "Submission"),
+			entry("P****hment", "Punishment"), entry("StepM************n","Stepmother and Son"));
 
 	@Override
 	public String getParserName() {
