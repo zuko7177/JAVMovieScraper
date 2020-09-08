@@ -35,7 +35,9 @@ public class MoviescraperPreferences extends Settings {
 		writeThumbTagsForPosterAndFanartToNfo, //Whether to write the <thumb> tag into the nfo,
 		userAgent, //UserAgent to use
 		cookieJar, //UserAgent to use
-		scrapeDmmActressPref  //option to scrape actress when DMM scraper is used
+		scrapeDmmActressPref,  //option to scrape actress when DMM scraper is used
+		useDmmEnglishSitePref, //option to use DMM English site for translation
+		useGrammarCheckerTranslationPref  //option to use GrammarChecker.net for translation
 		;
 
 		@Override
@@ -170,6 +172,22 @@ public class MoviescraperPreferences extends Settings {
 
 	public void setScrapeInJapanese(Boolean preferenceValue) {
 		setBooleanValue(Key.scrapeInJapanese, preferenceValue);
+	}
+
+	public Boolean getUseDmmEnglishSitePref() {
+		return getBooleanValue(Key.useDmmEnglishSitePref, Boolean.TRUE);
+	}
+
+	public void setUseDmmEnglishSitePref(Boolean preferenceValue) {
+		setBooleanValue(Key.useDmmEnglishSitePref, preferenceValue);
+	}
+
+	public Boolean getUseGrammarCheckerTranslationPref() {
+		return getBooleanValue(Key.useGrammarCheckerTranslationPref, Boolean.FALSE);
+	}
+
+	public void setUseGrammarCheckerTranslationPref(Boolean preferenceValue) {
+		setBooleanValue(Key.useGrammarCheckerTranslationPref, preferenceValue);
 	}
 
 	public Boolean getScrapeDmmActressPref() {
