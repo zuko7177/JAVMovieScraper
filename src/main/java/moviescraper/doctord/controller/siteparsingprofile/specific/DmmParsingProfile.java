@@ -579,7 +579,11 @@ public class DmmParsingProfile extends SiteParsingProfile implements SpecificPro
 				        //.header("Cache-Control", "no-store").header("Connection", "close")
 				        .cookies(cookies).userAgent(UserAgent.getUserAgent(0)).ignoreHttpErrors(true).timeout(CONNECTION_TIMEOUT_VALUE).post();
 
-				Element actressThumbnailElement = actressPage.select("tr.area-av30.top td img").first();
+				// Old code bug I think
+				//Element actressThumbnailElement = actressPage.select("tr.area-av30.top td img").first();
+
+				// Attempting to fix the actress element return null
+				Element actressThumbnailElement = actressPage.select("span.p-section-profile__image img").first();
 				String actressThumbnailPath = actressThumbnailElement.attr("abs:src");
 
 				if (doEnglishVersion) {
