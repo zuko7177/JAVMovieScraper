@@ -13,7 +13,7 @@ apply plugin: 'checkstyle'
 apply plugin: "com.diffplug.spotless"
 apply plugin: 'jacoco'
 
-sourceCompatibility = '1.8'
+sourceCompatibility = '11'
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
