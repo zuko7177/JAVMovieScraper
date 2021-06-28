@@ -55,7 +55,7 @@ dependencies {
 		'org.imgscalr:imgscalr-lib:4.2',
 		'com.cedarsoftware:json-io:4.12.0',
 		'org.jsoup:jsoup:1.9.2',
-		'com.thoughtworks.xstream:xstream:1.4.12',
+		'com.thoughtworks.xstream:xstream:1.4.16',
 		'org.json:json:20200518',
 		'org.hamcrest:hamcrest-core:2.2',
 		'xpp3:xpp3_min:1.1.4c',
