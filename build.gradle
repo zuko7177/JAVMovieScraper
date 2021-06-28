@@ -13,7 +13,7 @@ apply plugin: 'checkstyle'
 apply plugin: "com.diffplug.spotless"
 apply plugin: 'jacoco'
 
-sourceCompatibility = '11'
+sourceCompatibility = '16'
 compileJava.options.encoding = 'UTF-8'
 compileTestJava.options.encoding = 'UTF-8'
 
@@ -44,7 +44,7 @@ sourceSets {
 	}
 }
 dependencies {
-	compile (
+	implementation (
         'commons-io:commons-io:2.7',
 		'org.apache.commons:commons-lang3:3.11',
 		'commons-cli:commons-cli:1.4',
@@ -67,7 +67,7 @@ dependencies {
 	runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:win"
 	runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:linux"
 	runtimeOnly "org.openjfx:javafx-graphics:$javafx.version:mac"
-	testCompile('junit:junit:4.+')
+	testImplementation('junit:junit:4.+')
 }
 
 jar {
